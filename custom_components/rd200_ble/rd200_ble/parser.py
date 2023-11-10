@@ -135,18 +135,18 @@ class RD200BluetoothDeviceData:
 
         if self._command_data is not None and len(self._command_data) == 12:
             RadonValueBQ = struct.unpack("<H", self._command_data[2:4])[0]
-            device.sensors["radon"] = round(float(RadonValueBQ),2)
+            device.sensors["radon"] = int(RadonValueBQ)
             if not self.is_metric:
                 device.sensors["radon"] = round(float(RadonValueBQ) * BQ_TO_PCI_MULTIPLIER,2)
 
             RadonValueBQ = struct.unpack("<H", self._command_data[4:6])[0]
-            device.sensors["radon_1day_level"] = round(float(RadonValueBQ),2)
+            device.sensors["radon_1day_level"] = int(RadonValueBQ)
             if not self.is_metric:
                 device.sensors["radon_1day_level"] = (
                     round(float(RadonValueBQ) * BQ_TO_PCI_MULTIPLIER,2)
                 )
             RadonValueBQ = struct.unpack("<H", self._command_data[6:8])[0]
-            device.sensors["radon_1month_level"] = round(float(RadonValueBQ),2)
+            device.sensors["radon_1month_level"] = int(RadonValueBQ)
             if not self.is_metric:
                 device.sensors["radon_1month_level"] = (
                     round(float(RadonValueBQ) * BQ_TO_PCI_MULTIPLIER,2)
@@ -334,7 +334,7 @@ class RD200BluetoothDeviceData:
 
         if self._command_data is not None and len(self._command_data) == 68:
             RadonValueBQ = struct.unpack("<H", self._command_data[51:53])[0]
-            device.sensors["radon_peak"] = round(float(RadonValueBQ),2)
+            device.sensors["radon_peak"] = int(RadonValueBQ)
             if not self.is_metric:
                 device.sensors["radon_peak"] = (
                     round(float(RadonValueBQ) * BQ_TO_PCI_MULTIPLIER,2)
