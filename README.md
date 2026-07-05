@@ -1,11 +1,11 @@
 # rd200v2
 RadonEye RD200 (Version 2 and now Version 1) Integration for Homeasssistant. Throw me a github star if you use this!
 
-[![Stargazers repo roster for @jdeath/rd200v2](https://reporoster.com/stars/jdeath/rd200v2)](https://github.com/jdeath/rd200v2/stargazers)
+[![Stargazers repo roster for @jdeath/rd200v2](https://git-lister.onrender.com/api/stars/jdeath/rd200v2?limit=20)](https://github.com/jdeath/rd200v2/stargazers)
 
 Based on: https://github.com/EtoTen/radonreader/ and the AirThings BLE Homeassistant Integration (https://github.com/home-assistant/core/tree/dev/homeassistant/components/airthings_ble) and https://github.com/vincegio/airthings-ble, and the ESPHome Native Integration (https://esphome.io/components/sensor/radon_eye_ble.html)
 
-Works for RD200 Version 2 units with serial numbers starting with either FR:RU (United States) , FR:RE (Spain), FR:GI, FR:H, FR:GL, FR:I, FR:J (??? all sold in the US), FR:RD, FR:GJ, and FR:KA. Now works for version 1 (FR:R2 serial numbers). V1 integration currently only supports current radon value, 1 day and 1 month readings, peak and uptime. Note the box and the device display do not show the "FR:" portion of the serial number.
+Works for RD200 Version 2 units with serial numbers starting with either FR:RU (United States) , FR:RE (Spain), FR:GI, FR:H, FR:GL, FR:I (??? all sold in the US), FR:RD and FR:GJ. Now works for version 1 (FR:R2 serial numbers). V1 integration currently only supports current radon value, 1 day and 1 month readings, peak and uptime. Note the box and the device display do not show the "FR:" portion of the serial number.
 
 If you are pretty sure it is a version 2 device, but has a differnet serial number prefix, edit the manifest.json and line 152 in config_flow.py to include you prefix. If it works, post an issue or a PR and I can add it in.
 
@@ -25,18 +25,6 @@ If use a Raspberry Pi built-in BT adapter, the Peak and Uptime sensor may not wo
 An issue has been created in homeassistant for the BT performance, but it could just be the Raspberry Pi BT adapter stinks! https://github.com/home-assistant/core/issues/90307
 
 For VMWare: A user solved "regularly loosing-connection" on their Win10/Nuc running Home-Assistant in a VMWare Virtual machine by updating from VMware Pro 15 to VMWare (free) Verions 16. 
-
-### Device discovered but integration won't set up
-
-If Home Assistant's Bluetooth integration sees your RD200 in scanner diagnostics (correct `FR:*` local name, healthy RSSI from a connectable proxy) but no "Discovered" card ever appears in Settings -> Devices & Services, check whether the **Ecosense mobile app** is actively connected to the device on any phone in Bluetooth range.
-
-The Ecosense app holds an exclusive GATT connection to the RD200 while open. While that connection is alive:
-- The device may still advertise, but HA cannot connect to it to run the config flow.
-- HA's discovery dispatch silently waits for the device to become connectable, leaving no visible error -- the matcher appears not to fire when it's actually blocked on connectability.
-
-Fix: force-close the Ecosense app on every phone in range (not just backgrounded -- Android and iOS can hold BLE connections in the background). Rebooting the phone guarantees release. Within a few minutes, HA's Discovered card should appear.
-
-This can also cause readings to stop updating after setup if the Ecosense app has been used recently; the phone may still be holding the connection.
 
 ### Installation Instructions
 - Add this repo into HACS
